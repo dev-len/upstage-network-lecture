@@ -1,10 +1,6 @@
-import os
-import chromadb
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
-from dotenv import load_dotenv
-
-load_dotenv()
+from app.core.db import get_chroma_collection
 
 
 class VectorRepository(ABC):
@@ -26,16 +22,8 @@ class VectorRepository(ABC):
 
 
 class ChromaDBRepository(VectorRepository):
-    def __init__(self):
-        chroma_host = os.getenv("CHROMA_HOST", "localhost")
-        chroma_port = os.getenv("CHROMA_PORT", "8000")
-        collection_name = os.getenv("CHROMA_COLLECTION_NAME", "upstage_embeddings")
-        
-        self.client = chromadb.HttpClient(host=chroma_host, port=int(chroma_port))
-        self.collection = self.client.get_or_create_collection(
-            name=collection_name,
-            metadata={"description": "Upstage Solar2 embeddings collection"}
-        )
+    def __init__(self, collection_name: str = None):
+        self.collection = get_chroma_collection(collection_name)
     
     def add_documents(self, documents: List[str], embeddings: List[List[float]], metadatas: List[Dict[str, Any]] = None, ids: List[str] = None):
         if ids is None:

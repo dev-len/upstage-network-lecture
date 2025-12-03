@@ -20,7 +20,7 @@ class VectorService:
     def search(self, query: str, n_results: int = 5) -> Dict[str, Any]:
         query_embedding = self.embedding_service.create_embedding(query)
         
-        results = self.collection.query(
+        results = self.vector_repository.query(
             query_embeddings=[query_embedding],
             n_results=n_results,
             include=["documents", "metadatas", "distances"]
@@ -33,11 +33,7 @@ class VectorService:
         }
     
     def delete_document(self, doc_id: str):
-        self.collection.delete(ids=[doc_id])
+        self.vector_repository.delete_documents([doc_id])
     
     def get_collection_info(self) -> Dict[str, Any]:
-        return {
-            "name": self.collection.name,
-            "count": self.collection.count(),
-            "metadata": self.collection.metadata
-        }
+        return self.vector_repository.get_collection_info()

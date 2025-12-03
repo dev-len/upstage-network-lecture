@@ -11,7 +11,7 @@ class EmbeddingService:
         api_key = os.getenv("UPSTAGE_API_KEY")
         if not api_key:
             raise ValueError("UPSTAGE_API_KEY environment variable is required")
-        self.client = OpenAI(api_key=api_key)
+        self.client = OpenAI(api_key=api_key, base_url="https://api.upstage.ai/v1")
     
     def create_embeddings(self, texts: List[str]) -> List[List[float]]:
         try:

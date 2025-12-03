@@ -1,21 +1,22 @@
 import os
 from typing import List, Dict, Any
+
 from openai import OpenAI # openai==1.52.2
 
 from dotenv import load_dotenv
-from .vector_service import VectorService
+from app.service.vector_service import VectorService
 
 load_dotenv()
 
 
 class AgentService:
-    def __init__(self):
+    def __init__(self, vector_service: VectorService):
         api_key = os.getenv("UPSTAGE_API_KEY")
         if not api_key:
             raise ValueError("UPSTAGE_API_KEY environment variable is required")
-        
-        self.client = Upstage(api_key=api_key)
-        self.vector_service = VectorService()
+
+        self.client = OpenAI(api_key=api_key, base_url="https://api.upstage.ai/v1")
+        self.vector_service = vector_service
     
     def process_query(self, query: str, context_limit: int = 3) -> Dict[str, Any]:
         # Step 1: Retrieve relevant documents using vector search

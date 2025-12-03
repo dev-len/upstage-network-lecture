@@ -1,8 +1,9 @@
 from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from app.service.agent_service import AgentService
 
+from app.deps import get_agent_service
+from app.service.agent_service import AgentService
 
 router = APIRouter(prefix="/agent", tags=["agent"])
 
@@ -35,9 +36,6 @@ class StatsResponse(BaseModel):
     count: int
     metadata: Dict[str, Any]
 
-
-def get_agent_service() -> AgentService:
-    return AgentService()
 
 
 @router.post("/query", response_model=QueryResponse)
