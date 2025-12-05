@@ -27,7 +27,5 @@ jobs:
           git checkout "$BRANCH"
           git pull origin "$BRANCH"
           
-          # Python 가상환경 활성화 및 의존성 설치
-          uv sync
-          
+          # 시작 스크립트 실행  
           sh start.sh
