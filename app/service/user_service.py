@@ -1,8 +1,9 @@
 import logging
 from typing import Dict, Any
 from app.exceptions import EmailNotAllowedNameExistsError
+from app.logging import create_logger
 
-logger = logging.getLogger(__name__)
+logger = create_logger(__name__)
 
 class UserService:
     def __init__(self):

@@ -30,6 +30,7 @@ def create_logger(
         level=logging.INFO,
         console_level=logging.INFO
 ):
+    init_logging()
     # 1) 로거 생성
     logger = logging.getLogger(name)
     logger.setLevel(level)
